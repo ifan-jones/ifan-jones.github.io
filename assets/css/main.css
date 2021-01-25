@@ -1169,9 +1169,10 @@ input, select, textarea {
 			-ms-transition: -ms-transform 0.325s ease-in-out, -ms-filter 0.325s ease-in-out;
 			transition: transform 0.325s ease-in-out, filter 0.325s ease-in-out;
 			background-image: url("../../images/llithfaenMC2.png");
-			background-position: center;
 			background-size: cover;
+			background-position: center;
 			background-repeat: no-repeat;
+			position: absolute;
 			z-index: 1;
 		}
 
