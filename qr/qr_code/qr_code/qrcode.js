@@ -56,7 +56,7 @@ QRCode.prototype = {
 	
 	makeImpl : function(test, maskPattern) {
 		
-		this.moduleCount = this.typeNumber * 4 + 17;
+		this.moduleCount = this.typeNumber * 8 + 17;
 		this.modules = new Array(this.moduleCount);
 		
 		for (var row = 0; row < this.moduleCount; row++) {
