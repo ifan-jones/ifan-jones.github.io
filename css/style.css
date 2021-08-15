@@ -173,7 +173,8 @@ nsimg:not(:hover) {
 
   ul li {
     display: block;
-  }
+  }h2b
+
 
   ul li a:hover{
     color: #FF155C;
@@ -291,6 +292,17 @@ nsimg:not(:hover) {
 		letter-spacing: 0.2rem;
 	}
 
+	h1c, h2c, h3c, h4c, h5c, h6c {
+		color: #000000;
+		font-weight: 600;
+		line-height: 1.5;
+		margin: 0 0 1rem 0;
+		text-transform: none;
+  	
+	font-family: "Tahoma";
+		letter-spacing: 0.2rem;
+	}
+
 	h1, h2, h3, h4, h5, h6 {
 		color: #ffffff;
 		font-weight: 600;
@@ -326,11 +338,27 @@ nsimg:not(:hover) {
 		letter-spacing: 0.5rem;
 	}
 
+
+	h1c {
+		font-size: 2.25rem;
+		line-height: 1.3;
+		letter-spacing: 0.5rem;
+	}
+
+
 	h2 {
 		font-size: 1.5rem;
 		line-height: 1.4;
 		letter-spacing: 0.5rem;
 	}
+
+
+	h2c {
+		font-size: 1.5rem;
+		line-height: 1.4;
+		letter-spacing: 0.5rem;
+	}
+
 
 	h3 {
 		font-size: 1rem;
@@ -418,3 +446,6 @@ nsimg:not(:hover) {
 			.image.main img {
 				width: 100%;
 			}
+
+
+
