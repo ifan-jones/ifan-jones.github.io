@@ -302,6 +302,9 @@ nsimg:not(:hover) {
 	font-family: "Tahoma";
 		letter-spacing: 0.2rem;
 	}
+	h6 {
+	text-align: left;
+		 }
 
 	h1, h2, h3, h4, h5, h6 {
 		color: #ffffff;
