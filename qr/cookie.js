@@ -1,0 +1,34 @@
+function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+}
+function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+}
+
+function codeAddress() {
+const params = new URLSearchParams(document.location.search);
+const s = params.get("lang");
+const f = params.get("loc");
+const clang = getCookie("lang");
+
+const path = window.location.href.split('.html')[0];            
+const url = path + f + s + '.html';
+const x = getCookie('lang');
+alert('ok ' + f  + ' ' + s + ' ' + path + ' Cookie: ' + clang + ' >> ' + x + ' ???' + getCookie('lang'));
+const url2 = path + f + x + '.html';
+alert('HERE: ' + url2);
+return url2;
+        }
