@@ -27,9 +27,6 @@ function getCookie(name) {
 }
 
 
-function createCookie() {
-  document.cookie = "lang=en";
-}
 
 function codeAddress() {
 const params = new URLSearchParams(document.location.search);
@@ -48,8 +45,9 @@ return url2;
 
 
 $(document).ready(function () {
-    alert('-> '|| codeAddress() );
-    window.onload = codeAddress();
+  const  URL = codeAddress();
+    alert('-> '+ URL);
+    window.onload = URL;
 });
 
 
