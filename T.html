@@ -28,7 +28,7 @@ function getCookie(name) {
 
 
 function createCookie() {
-  document.cookie = "username=John Doe";
+  document.cookie = "lang=en";
 }
 
 function codeAddress() {
@@ -41,7 +41,7 @@ const url = path + f + s + '.html';
 setCookie('hclang', 'EN', 1);
 createCookie();
 const x = getCookie('hclang');
-alert('ok ' + f  + ' ' + s + ' ' + path + ' Cookie: ' + clang + ' >> ' + x + ' ???' + getCookie('username'));
+alert('ok ' + f  + ' ' + s + ' ' + path + ' Cookie: ' + clang + ' >> ' + x + ' ???' + getCookie('en'));
 const url2 = path + f + x + '.html';
 alert('HERE: ' + url2);
 window.location.href = url;
