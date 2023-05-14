@@ -25,11 +25,11 @@ const ploc = params.get("loc");
 const clang = getCookie("lang");
 const path = window.location.href.split('.html')[0];            
 alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
-if (plang) 
+if (!plang) 
+  { const url2 = path + ploc + clang + '.html'; }
+else
   { const url2 = path + ploc + plang + '.html'; 
     set_cookie('lang', plang, 1); }
-else
-  { const url2 = path + ploc + clang + '.html'; }
 alert('HERE: ' + url2);
 return url2;
  }
