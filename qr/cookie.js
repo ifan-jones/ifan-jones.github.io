@@ -20,15 +20,16 @@ function getCookie(name) {
 
 function codeAddress() {
 const params = new URLSearchParams(document.location.search);
-const s = params.get("lang");
-const f = params.get("loc");
+const plang = params.get("lang");
+const ploc = params.get("loc");
 const clang = getCookie("lang");
-
 const path = window.location.href.split('.html')[0];            
-const url = path + f + s + '.html';
-const x = getCookie('lang');
-alert('ok ' + f  + ' ' + s + ' ' + path + ' Cookie: ' + clang + ' >> ' + x + ' ???' + getCookie('lang'));
-const url2 = path + f + x + '.html';
+alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
+if (plang) 
+  { const url2 = path + ploc + plang + '.html'; 
+    set_cookie('lang', plang, 1); }
+else
+  { const url2 = path + ploc + clang + '.html'; }
 alert('HERE: ' + url2);
 return url2;
-        }
+ }
