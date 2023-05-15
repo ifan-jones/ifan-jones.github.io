@@ -36,7 +36,7 @@ const clang = getCookie("lang");
 const path = window.location.href.split('.html')[0];            
 alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
 
-if (typeof plang == null) 
+if (plang === null) 
   { const url2 = path + ploc + clang + '.html';
    }
 else 
