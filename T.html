@@ -35,14 +35,13 @@ const ploc = params.get("loc");
 const clang = getCookie("lang");
 const path = window.location.href.split('.html')[0];            
 alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
-const url2 = path + ploc + clang + '.html';
 
-if (plang === null) 
-  { let url2 = path + ploc + clang + '.html';
+if ("string" == typeof plang) 
+  { const url2 = path + ploc + plang + '.html'; 
+    setCookie('lang', plang, 1);
    }
 else 
-  { let url2 = path + ploc + plang + '.html'; 
-    setCookie('lang', plang, 1);
+  { const url2 = path + ploc + clang + '.html';
    }
 
 alert('HERE: ' + url2);
