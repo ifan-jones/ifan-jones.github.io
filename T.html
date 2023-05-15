@@ -35,17 +35,18 @@ const ploc = params.get("loc");
 const clang = getCookie("lang");
 const path = window.location.href.split('.html')[0];            
 alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
-var url2 = "";
+
 if ("string" == typeof plang) 
-  { let url2 = path + ploc + plang + '.html'; 
+  { const url = path + ploc + plang + '.html'; 
     setCookie('lang', plang, 1);
+    alert('Have parameter URL: ' + url);
+    return url;
    }
 else 
-  { let url2 = path + ploc + clang + '.html';
+  { const url = path + ploc + clang + '.html';
+    alert('No Parameter URL: ' + url);
+    return url;
    }
-
-alert('HERE: ' + url2);
-return url2;
  }
 
 
