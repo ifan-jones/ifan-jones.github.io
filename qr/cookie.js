@@ -1,4 +1,3 @@
-<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
 function setCookie(name,value,days) {
     var expires = "";
@@ -29,7 +28,7 @@ const path = window.location.href.split('.html')[0];
 alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
 if (plang.length = 2) 
   { const url2 = path + ploc + plang + '.html'; 
-    set_cookie('lang', plang, 1);
+    setCookie('lang', plang, 1);
    }
 else
   { const url2 = path + ploc + clang + '.html';
