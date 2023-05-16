@@ -34,30 +34,27 @@ const plang = params.get("lang");
 const ploc = params.get("loc");
 const clang = getCookie("lang");
 const path = window.location.href.split('.html')[0];            
-alert('ok PLang: ' + plang  + '  PLoc: ' + ploc + '  Path: ' + path + ' Cookie: ' + clang );
 
 if ("string" == typeof plang) 
   { const url = path + ploc + plang + '.html'; 
     setCookie('lang', plang, 1);
-    alert('Have parameter URL: ' + url);
     return url;
    }
-else 
+else if ("string" == typeof clang) 
   { const url = path + ploc + clang + '.html';
-    alert('No Parameter URL: ' + url);
     return url;
    }
+else
+  { const url = path + ploc + 'cy' + '.html';
+    return url;
+   }
+
  }
-
-
 
 $(document).ready(function () {
   const  URL = codeAddress();
-    alert('-> '+ URL);
     window.location.href = URL;
 });
 </script>
-
 </head>
-
 </html>
