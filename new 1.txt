@@ -1,0 +1,107 @@
+HOLS:
+                      25
+2 days during 2022    23
+------------------------
+19-23 December        18
+28-30 December        15
+3-6 January 2023      11
+9-13 January           6
+16-20 January          1
+ 
+
+
+Planning Service, Council Offices, Ffordd y Cob, Pwllheli, Gwynedd. LL53 5AA
+
+CE-KFR26W/BP2(IR-120).D.13.WP2-1 External Board For Midea Air Conditioning UK
+CE-KFR26W/BP2(IR-120).D.13.WP2-1 External Board For Midea
+
+
+
+IP   0.0 12.44
+Line 18.99
+eve   5.71
+=24.70
+
+
+
+
+computerstudies
+12345678901234
+
+
+
+effective_cache_size -> 
+
+
+
+
+PG_FUNCTION_INFO_V1(f_series_data);
+PGDLLEXPORT Datum f_series_data(PG_FUNCTION_ARGS)
+{
+  Oid elemTypeId = get_fn_expr_argtype(fcinfo->flinfo, 3);
+  Oid stepTypeId = get_fn_expr_argtype(fcinfo->flinfo, 2);
+  ArrayType *resultArray, *stepArray;
+  int resultLength, stepLength;
+  bool *resultNulls, *stepNulls;
+  Datum *resultContent, *stepContent;
+  int16 stepTypeWidth;
+  bool stepTypeByValue;
+  char stepTypeAlignmentCode;
+  int16 elemTypeWidth;
+  bool elemTypeByValue;
+  char elemTypeAlignmentCode;
+  Datum insValue = PG_GETARG_DATUM(3);
+  int stepNo = PG_GETARG_INT32(2);
+  int dims[1];
+  int lbs[1];
+  int i;
+  int *mapvals;
+
+  stepArray = PG_GETARG_ARRAYTYPE_P(1);
+  get_typlenbyvalalign(stepTypeId, &stepTypeWidth, &stepTypeByValue, &stepTypeAlignmentCode);
+  deconstruct_array(stepArray, stepTypeId, stepTypeWidth, stepTypeByValue, stepTypeAlignmentCode,
+      &stepContent, &stepNulls, &stepLength);
+  mapvals = (int *) ARR_DATA_PTR(stepArray);
+  get_typlenbyvalalign(elemTypeId, &elemTypeWidth, &elemTypeByValue, &elemTypeAlignmentCode);
+
+  if (PG_ARGISNULL(0))
+   {
+     resultContent = palloc0(sizeof(Datum) * stepLength);
+     resultNulls   = palloc0(sizeof(bool) * stepLength);
+     for (i = 0; i < stepLength; i++)
+       {
+        if (mapvals[i] == stepNo)
+           {
+             resultContent[i] = insValue;
+             resultNulls[i] = false;
+           }
+                else
+           {
+             resultContent[i] = 0;
+             resultNulls[i] = true;
+           }
+       }
+    }
+  else
+   {
+     resultArray = PG_GETARG_ARRAYTYPE_P(0);
+     deconstruct_array(resultArray, FLOAT4OID, elemTypeWidth, elemTypeByValue, elemTypeAlignmentCode,
+         &resultContent, &resultNulls, &resultLength);
+
+     for (i = 0; i < stepLength; i++)
+       {
+        if (mapvals[i] == stepNo)
+           {
+             resultContent[i] = insValue;
+             resultNulls[i] = false;
+           }
+       }
+   }
+
+  dims[0] = stepLength;
+  lbs[0] = 1;
+  resultArray = construct_md_array(resultContent, resultNulls, 1, dims, lbs,
+      elemTypeId, elemTypeWidth, elemTypeByValue, elemTypeAlignmentCode);
+
+  PG_RETURN_ARRAYTYPE_P(resultArray);
+}
