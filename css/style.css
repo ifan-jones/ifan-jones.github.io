@@ -148,10 +148,10 @@ nsimg:not(:hover) {
 }
 
 /* Responsive Mobile section */
-@media screen and (max-width:400px){
+@media screen and (max-width:500px){
   .header{
     padding: 0 30px;
-  height: 120px;
+  height: 160px;
   }
 
   .logo{
