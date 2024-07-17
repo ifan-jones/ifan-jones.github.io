@@ -1,0 +1,643 @@
+When compiling PostgreSQL on Solaris 10, you may want to use specific compiler flags (CFLAGS) to optimize the build for your environment. The exact flags you choose might depend on factors like your hardware architecture and whether you're compiling for production or development. Below are some general recommendations:
+
+bash
+Copy code
+CFLAGS = -O2 -m64
+Explanation of flags:
+
+-O2: Optimization level 2. This level provides a good balance between compile time and runtime performance. You might consider using -O3 for more aggressive optimizations, but be cautious as it may lead to longer compilation times.
+
+-m64: Compiles for a 64-bit architecture. PostgreSQL is typically compiled as a 64-bit application on modern systems for better memory addressing capabilities.
+
+You might also need to set LDFLAGS to specify the location of necessary libraries:
+
+bash
+Copy code
+LDFLAGS = -L/path/to/your/libraries
+Replace /path/to/your/libraries with the actual path where your libraries are located.
+
+Additionally, ensure that you have the necessary development tools and libraries installed on your Solaris 10 system. You might need the GNU development tools (gcc, gmake, etc.) if they are not already installed.
+
+Here is a minimal set of development packages you may need to install on Solaris 10:
+
+bash
+Copy code
+SUNWbtool
+SUNWhea
+SUNWarc
+SUNWlibm
+SUNWlibms
+SUNWsprot
+SUNWtoo
+SUNWi1of
+SUNWi1cs
+SUNWi15cs
+SUNWsfman
+You can use the pkgadd command to install these packages.
+
+Remember to consult the PostgreSQL documentation for the version you are compiling for any additional platform-specific instructions or recommendations. The specific flags and requirements may vary based on your environment and the PostgreSQL version you are working with.
+
+ ./configure XML2_CONFIG=/usr/local/bin/xml2-config --with-includes=/opt/csw/include --with-libraries=/opt/csw/lib FLEX=/opt/csw/bin/flex --with-libxml --without-icu --without-readline
+
+
+
+
+
+
+
+gmake -C src all
+gmake[1]: Entering directory '/export/home/PostgresBuild/postgresql-16.0/src'
+gmake -C common all
+gmake[2]: Entering directory '/export/home/PostgresBuild/postgresql-16.0/src/common'
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -std=c99  -fPIC -DFRONTEND -I. -I../../src/common -I../../src/include  -D_POSIX_PTHREAD_SEMANTICS -I/usr/local/include/libxml2  -DVAL_CC="\"gcc\"" -DVAL_CPPFLAGS="\"-D_POSIX_PTHREAD_SEMANTICS -I/usr/local/include/libxml2\"" -DVAL_CFLAGS="\"-Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -std=c99  -fPIC\"" -DVAL_CFLAGS_SL="\"-fPIC\"" -DVAL_LDFLAGS="\"-L/usr/local/lib -L/usr/local/lib -Wl,-rpath,'/usr/local/pgsql/lib'\"" -DVAL_LDFLAGS_EX="\"\"" -DVAL_LDFLAGS_SL="\"\"" -DVAL_LIBS="\"-lpgcommon -lpgport -lxml2 -lz -lrt -lsocket -lm \""  -c -o hashfn.o hashfn.c
+In file included from ../../src/include/postgres.h:46:0,
+                 from hashfn.c:24:
+../../src/include/utils/elog.h:429:20: error: unknown type name 'sigjmp_buf'
+ extern PGDLLIMPORT sigjmp_buf *PG_exception_stack;
+                    ^
+gmake[2]: *** [<builtin>: hashfn.o] Error 1
+gmake[2]: Leaving directory '/export/home/PostgresBuild/postgresql-16.0/src/common'
+gmake[1]: *** [Makefile:42: all-common-recurse] Error 2
+gmake[1]: Leaving directory '/export/home/PostgresBuild/postgresql-16.0/src'
+gmake: *** [GNUmakefile:11: all-src-recurse] Error 2
+
+
+$ ./configure XML2_CONFIG=/usr/local/bin/xml2-config --with-libraries=/usr/local/lib FLEX=/opt/csw/bin/flex --with-libxml --without-readline --with-python --w>
+$ ./configure XML2_CONFIG=/usr/local/bin/xml2-config --with-includes=/opt/csw/include --with-libraries=/opt/csw/lib FLEX=/opt/csw/bin/flex XML2CONFIG=/opt/csw/bin/xml2-config XSLTCONFIG=/opt/csw/bin/xslt-config  --with-libxml --without-icu --without-readline
+
+ ./configure XML2_CONFIG=/usr/local/bin/xml2-config --with-includes=/opt/csw/include --with-libraries=/opt/csw/lib FLEX=/opt/csw/bin/flex XML2CONFIG=/opt/csw/bin/xml2-config XSLTCONFIG=/opt/csw/bin/xslt-config --with-libxml --without-icu --without-readline
+
+
+gcc -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -std=c99  -fPIC -DFRONTEND -I. -I../../src/common -I../../src/include  -D_POSIX_PTHREAD_SEMANTICS -I/usr/local/include/libxml2  -DVAL_CC="\"gcc\"" -DVAL_CPPFLAGS="\"-D_POSIX_PTHREAD_SEMANTICS -I/usr/local/include/libxml2\"" -DVAL_CFLAGS="\"-Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -std=c99  -fPIC\"" -DVAL_CFLAGS_SL="\"-fPIC\"" -DVAL_LDFLAGS="\"-L/usr/local/lib -L/usr/local/lib -Wl,-rpath,'/usr/local/pgsql/lib'\"" -DVAL_LDFLAGS_EX="\"\"" -DVAL_LDFLAGS_SL="\"\"" -DVAL_LIBS="\"-lpgcommon -lpgport -lxml2 -lz -lrt -lsocket -lm \""  -c -o exec.o exec.c
+exec.c: In function 'pg_realpath':
+exec.c:285:9: warning: implicit declaration of function 'realpath' [-Wimplicit-function-declaration]
+  path = realpath(fname, NULL);
+         ^
+exec.c:285:7: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  path = realpath(fname, NULL);
+       ^
+exec.c:296:8: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+   path = realpath(fname, buf);
+        ^
+exec.c: In function 'pipe_read_line':
+exec.c:370:15: warning: implicit declaration of function 'popen' [-Wimplicit-function-declaration]
+  if ((pgver = popen(cmd, "r")) == NULL)
+               ^
+exec.c:370:13: warning: assignment makes pointer from integer without a cast [-Wint-conversion]
+  if ((pgver = popen(cmd, "r")) == NULL)
+             ^
+exec.c:383:3: warning: implicit declaration of function 'pclose' [-Wimplicit-function-declaration]
+   pclose(pgver);   /* no error checking */
+   ^
+exec.c: In function 'set_pglocale_pgservice':
+exec.c:472:3: warning: implicit declaration of function 'setenv' [-Wimplicit-function-declaration]
+   setenv("PGSYSCONFDIR", path, 0);
+   ^
+
+
+
+
+$ ./configure XML2_CONFIG=/usr/local/bin/xml2-config --with-libraries=/usr/local/lib FLEX=/opt/csw/bin/flex --with-libxml --without-readline --with-python --w>
+checking build system type... sparc-sun-solaris2.10
+checking host system type... sparc-sun-solaris2.10
+checking which template to use... solaris
+checking whether NLS is wanted... no
+checking for default port number... 5432
+checking for block size... 8kB
+checking for segment size... 1GB
+checking for WAL block size... 8kB
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables...
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for gcc option to accept ISO C99... none needed
+checking for g++... g++
+checking whether we are using the GNU C++ compiler... yes
+checking whether g++ accepts -g... yes
+checking for gawk... gawk
+checking whether gcc supports -Wdeclaration-after-statement, for CFLAGS... yes
+checking whether gcc supports -Werror=vla, for CFLAGS... yes
+checking whether gcc supports -Werror=unguarded-availability-new, for CFLAGS... no
+checking whether g++ supports -Werror=unguarded-availability-new, for CXXFLAGS... no
+checking whether gcc supports -Wendif-labels, for CFLAGS... yes
+checking whether g++ supports -Wendif-labels, for CXXFLAGS... yes
+checking whether gcc supports -Wmissing-format-attribute, for CFLAGS... yes
+checking whether g++ supports -Wmissing-format-attribute, for CXXFLAGS... yes
+checking whether gcc supports -Wimplicit-fallthrough=3, for CFLAGS... no
+checking whether g++ supports -Wimplicit-fallthrough=3, for CXXFLAGS... no
+checking whether gcc supports -Wcast-function-type, for CFLAGS... no
+checking whether g++ supports -Wcast-function-type, for CXXFLAGS... no
+checking whether gcc supports -Wshadow=compatible-local, for CFLAGS... no
+checking whether g++ supports -Wshadow=compatible-local, for CXXFLAGS... no
+checking whether gcc supports -Wformat-security, for CFLAGS... yes
+checking whether g++ supports -Wformat-security, for CXXFLAGS... yes
+checking whether gcc supports -fno-strict-aliasing, for CFLAGS... yes
+checking whether g++ supports -fno-strict-aliasing, for CXXFLAGS... yes
+checking whether gcc supports -fwrapv, for CFLAGS... yes
+checking whether g++ supports -fwrapv, for CXXFLAGS... yes
+checking whether gcc supports -fexcess-precision=standard, for CFLAGS... yes
+checking whether g++ supports -fexcess-precision=standard, for CXXFLAGS... yes
+checking whether gcc supports -funroll-loops, for CFLAGS_UNROLL_LOOPS... yes
+checking whether gcc supports -ftree-vectorize, for CFLAGS_VECTORIZE... yes
+checking whether gcc supports -Wunused-command-line-argument, for NOT_THE_CFLAGS... no
+checking whether gcc supports -Wcompound-token-split-by-macro, for NOT_THE_CFLAGS... no
+checking whether gcc supports -Wformat-truncation, for NOT_THE_CFLAGS... no
+checking whether gcc supports -Wstringop-truncation, for NOT_THE_CFLAGS... no
+checking whether gcc supports -Wcast-function-type-strict, for NOT_THE_CFLAGS... no
+checking whether gcc supports -fvisibility=hidden, for CFLAGS_SL_MODULE... yes
+checking whether g++ supports -fvisibility=hidden, for CXXFLAGS_SL_MODULE... yes
+checking whether g++ supports -fvisibility-inlines-hidden, for CXXFLAGS_SL_MODULE... yes
+checking whether the C compiler still works... yes
+checking how to run the C preprocessor... gcc -E
+checking for pkg-config... /opt/csw/bin/pkg-config
+checking pkg-config is at least version 0.9.0... yes
+checking allow thread-safe client libraries... yes
+checking whether to build with ICU support... no
+checking whether to build with Tcl... no
+checking whether to build Perl modules... no
+checking whether to build Python modules... yes
+checking whether to build with GSSAPI support... no
+checking whether to build with PAM support... no
+checking whether to build with BSD Authentication support... no
+checking whether to build with LDAP support... no
+checking whether to build with Bonjour support... no
+checking whether to build with SELinux support... no
+checking whether to build with systemd support... no
+checking whether to build with XML support... yes
+checking for XML2_CONFIG... /usr/local/bin/xml2-config
+checking whether to build with LZ4 support... no
+checking whether to build with ZSTD support... no
+checking for strip... strip
+checking whether it is possible to strip libraries... no
+checking for ar... ar
+checking for a BSD-compatible install... /opt/csw/bin/ginstall -c
+checking for tar... /usr/bin/tar
+checking whether ln -s works... yes
+checking for a thread-safe mkdir -p... /opt/csw/bin/gmkdir -p
+checking for bison... /opt/csw/bin/bison
+configure: using bison (GNU Bison) 3.7.5
+checking for flex... /opt/csw/bin/flex
+configure: using flex 2.6.4
+checking for perl... /opt/csw/bin/perl
+configure: using perl 5.10.1
+configure: WARNING:
+*** The installed version of Perl, /opt/csw/bin/perl, is too old to use with PostgreSQL.
+*** Perl version 5.14 or later is required, but this is 5.10.1.
+configure: WARNING:
+*** Without Perl you will not be able to build PostgreSQL from Git.
+*** You can obtain Perl from any CPAN mirror site.
+*** (If you are using the official distribution of PostgreSQL then you do not
+*** need to worry about this, because the Perl output is pre-generated.)
+checking for python3... /opt/python/3.10.0/bin/python3
+configure: using python 3.10.1 (main, Dec 31 2021, 17:32:19) [GCC 3.4.3 (csl-sol210-3_4-branch+sol_rpath)]
+checking for Python sysconfig module... yes
+checking Python configuration directory... /opt/python/3.10.0/lib/python3.10/config-3.10
+checking Python include directory... -I/opt/python/3.10.0/include/python3.10
+checking how to link an embedded Python application... -L/opt/python/3.10.0/lib -lpython3.10 -lsocket -lnsl -lintl -lrt -ldl -lsendfile  -lm -lm
+checking for a sed that does not truncate output... /opt/csw/bin/gsed
+checking for grep that handles long lines and -e... /opt/csw/bin/ggrep
+checking for egrep... /opt/csw/bin/ggrep -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking whether gcc is Clang... no
+checking whether pthreads work with -pthread... yes
+checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
+checking whether more special flags are required for pthreads... -D_POSIX_PTHREAD_SEMANTICS
+checking for PTHREAD_PRIO_INHERIT... yes
+checking pthread.h usability... yes
+checking pthread.h presence... yes
+checking for pthread.h... yes
+checking for strerror_r... yes
+checking whether strerror_r returns int... yes
+checking for main in -lm... yes
+checking for library containing setproctitle... no
+checking for library containing dlsym... none required
+checking for library containing socket... -lsocket
+checking for library containing getopt_long... none required
+checking for library containing shm_open... -lrt
+checking for library containing shm_unlink... none required
+checking for library containing clock_gettime... none required
+checking for library containing fdatasync... none required
+checking for library containing shmget... none required
+checking for library containing backtrace_symbols... no
+checking for library containing pthread_barrier_wait... none required
+checking for inflate in -lz... yes
+checking for xmlSaveToBuffer in -lxml2... yes
+checking for stdbool.h that conforms to C99... yes
+checking for _Bool... yes
+checking atomic.h usability... yes
+checking atomic.h presence... yes
+checking for atomic.h... yes
+checking copyfile.h usability... no
+checking copyfile.h presence... no
+checking for copyfile.h... no
+checking execinfo.h usability... no
+checking execinfo.h presence... no
+checking for execinfo.h... no
+checking getopt.h usability... yes
+checking getopt.h presence... yes
+checking for getopt.h... yes
+checking ifaddrs.h usability... no
+checking ifaddrs.h presence... no
+checking for ifaddrs.h... no
+checking langinfo.h usability... yes
+checking langinfo.h presence... yes
+checking for langinfo.h... yes
+checking mbarrier.h usability... no
+checking mbarrier.h presence... no
+checking for mbarrier.h... no
+checking sys/epoll.h usability... no
+checking sys/epoll.h presence... no
+checking for sys/epoll.h... no
+checking sys/event.h usability... no
+checking sys/event.h presence... no
+checking for sys/event.h... no
+checking sys/personality.h usability... no
+checking sys/personality.h presence... no
+checking for sys/personality.h... no
+checking sys/prctl.h usability... no
+checking sys/prctl.h presence... no
+checking for sys/prctl.h... no
+checking sys/procctl.h usability... no
+checking sys/procctl.h presence... no
+checking for sys/procctl.h... no
+checking sys/signalfd.h usability... no
+checking sys/signalfd.h presence... no
+checking for sys/signalfd.h... no
+checking sys/ucred.h usability... no
+checking sys/ucred.h presence... no
+checking for sys/ucred.h... no
+checking termios.h usability... yes
+checking termios.h presence... yes
+checking for termios.h... yes
+checking ucred.h usability... yes
+checking ucred.h presence... yes
+checking for ucred.h... yes
+checking zlib.h usability... yes
+checking zlib.h presence... yes
+checking for zlib.h... yes
+checking for lz4... no
+checking for zstd... no
+checking for openssl... /usr/local/bin/openssl
+checking libxml/parser.h usability... yes
+checking libxml/parser.h presence... yes
+checking for libxml/parser.h... yes
+checking whether byte ordering is bigendian... yes
+checking for inline... inline
+checking for printf format archetype... gnu_printf
+checking for _Static_assert... yes
+checking for typeof... __typeof__
+checking for __builtin_types_compatible_p... yes
+checking for __builtin_constant_p... yes
+checking for __builtin_unreachable... yes
+checking for computed goto support... yes
+checking for struct tm.tm_zone... no
+checking for union semun... no
+checking for socklen_t... yes
+checking for struct sockaddr.sa_len... no
+checking for locale_t... no
+checking for C/C++ restrict keyword... __restrict
+checking for struct option... yes
+checking for z_streamp... yes
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... 64
+checking size of off_t... 8
+checking size of bool... 1
+checking for int timezone... no
+checking for wcstombs_l declaration... no
+checking for backtrace_symbols... no
+checking for copyfile... no
+checking for getifaddrs... no
+checking for getpeerucred... yes
+checking for inet_pton... no
+checking for kqueue... no
+checking for mbstowcs_l... no
+checking for memset_s... no
+checking for posix_fallocate... no
+checking for ppoll... no
+checking for pthread_is_threaded_np... no
+checking for setproctitle... no
+checking for setproctitle_fast... no
+checking for strchrnul... no
+checking for strsignal... yes
+checking for syncfs... no
+checking for sync_file_range... no
+checking for uselocale... no
+checking for wcstombs_l... no
+checking for __builtin_bswap16... yes
+checking for __builtin_bswap32... yes
+checking for __builtin_bswap64... yes
+checking for __builtin_clz... yes
+checking for __builtin_ctz... yes
+checking for __builtin_popcount... yes
+checking for __builtin_frame_address... yes
+checking for _LARGEFILE_SOURCE value needed for large files... 1
+checking how gcc reports undeclared, standard C functions... error
+checking whether fdatasync is declared... yes
+checking whether strlcat is declared... no
+checking whether strlcpy is declared... no
+checking whether strnlen is declared... no
+checking whether preadv is declared... no
+checking whether pwritev is declared... no
+checking whether F_FULLFSYNC is declared... no
+checking for explicit_bzero... no
+checking for getopt... yes
+checking for getpeereid... no
+checking for inet_aton... no
+checking for mkdtemp... yes
+checking for strlcat... yes
+checking for strlcpy... yes
+checking for strnlen... no
+checking for pthread_barrier_wait... yes
+checking for getopt_long... yes
+checking for syslog... yes
+checking syslog.h usability... yes
+checking syslog.h presence... yes
+checking for syslog.h... yes
+checking for opterr... yes
+checking for optreset... no
+checking test program... ok
+checking whether long int is 64 bits... no
+checking whether long long int is 64 bits... yes
+checking for __builtin_mul_overflow... yes
+checking size of void *... 4
+checking size of size_t... 4
+checking size of long... 4
+checking alignment of short... 2
+checking alignment of int... 4
+checking alignment of long... 4
+checking alignment of long long int... 8
+checking alignment of double... 8
+checking for int8... no
+checking for uint8... no
+checking for int64... no
+checking for uint64... no
+checking for __int128... no
+checking for builtin __sync char locking functions... yes
+checking for builtin __sync int32 locking functions... yes
+checking for builtin __sync int32 atomic operations... yes
+checking for builtin __sync int64 atomic operations... yes
+checking for builtin __atomic int32 atomic operations... yes
+checking for builtin __atomic int64 atomic operations... yes
+checking for __get_cpuid... no
+checking for __cpuid... no
+checking for _mm_crc32_u8 and _mm_crc32_u32 with CFLAGS=... no
+checking for _mm_crc32_u8 and _mm_crc32_u32 with CFLAGS=-msse4.2... no
+checking for __crc32cb, __crc32ch, __crc32cw, and __crc32cd with CFLAGS=... no
+checking for __crc32cb, __crc32ch, __crc32cw, and __crc32cd with CFLAGS=-march=armv8-a+crc... no
+checking which CRC-32C implementation to use... slicing-by-8
+checking which semaphore API to use... System V
+checking which random number source to use... /dev/urandom
+checking for /dev/urandom... yes
+checking Python.h usability... yes
+checking Python.h presence... yes
+checking for Python.h... yes
+checking for xmllint... /usr/local/bin/xmllint
+checking for xsltproc... /opt/csw/bin/xsltproc
+checking for fop... no
+checking for dbtoepub... no
+checking whether gcc supports -Wl,--as-needed, for LDFLAGS... no
+checking whether gcc supports -Wl,--export-dynamic, for LDFLAGS_EX_BE... no
+configure: using compiler=gcc (GCC) 5.5.0
+configure: using CFLAGS=-Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -std=c99  -fPIC
+configure: using CPPFLAGS= -D_POSIX_PTHREAD_SEMANTICS -I/usr/local/include/libxml2
+configure: using LDFLAGS= -L/usr/local/lib  -L/usr/local/lib
+configure: creating ./config.status
+config.status: creating GNUmakefile
+config.status: creating src/Makefile.global
+config.status: creating src/include/pg_config.h
+config.status: src/include/pg_config.h is unchanged
+config.status: creating src/include/pg_config_ext.h
+config.status: src/include/pg_config_ext.h is unchanged
+config.status: creating src/interfaces/ecpg/include/ecpg_config.h
+config.status: src/interfaces/ecpg/include/ecpg_config.h is unchanged
+config.status: linking src/backend/port/tas/dummy.s to src/backend/port/tas.s
+config.status: linking src/backend/port/sysv_sema.c to src/backend/port/pg_sema.c
+config.status: linking src/backend/port/sysv_shmem.c to src/backend/port/pg_shmem.c
+config.status: linking src/include/port/solaris.h to src/include/pg_config_os.h
+config.status: linking src/makefiles/Makefile.solaris to src/Makefile.port
+$
+$ pg_config
+BINDIR = /usr/local/pgsql/bin
+DOCDIR = /usr/local/pgsql/share/doc
+HTMLDIR = /usr/local/pgsql/share/doc
+INCLUDEDIR = /usr/local/pgsql/include
+PKGINCLUDEDIR = /usr/local/pgsql/include
+INCLUDEDIR-SERVER = /usr/local/pgsql/include/server
+LIBDIR = /usr/local/pgsql/lib
+PKGLIBDIR = /usr/local/pgsql/lib
+LOCALEDIR = /usr/local/pgsql/share/locale
+MANDIR = /usr/local/pgsql/share/man
+SHAREDIR = /usr/local/pgsql/share
+SYSCONFDIR = /usr/local/pgsql/etc
+PGXS = /usr/local/pgsql/lib/pgxs/src/makefiles/pgxs.mk
+CONFIGURE =  '--with-includes=/opt/csw/include' '--with-libraries=/opt/csw/lib' 'FLEX=/opt/csw/bin/flex' 'XML2CONFIG=/opt/csw/bin/xml2-config' 'XSLTCONFIG=/opt/csw/bin/xslt-config' '--without-icu' '--without-readline'
+CC = gcc -std=gnu99
+CPPFLAGS = -D_POSIX_PTHREAD_SEMANTICS -I/opt/csw/include
+CFLAGS = -Wall -Wmissing-prototypes -Wpointer-arith -Wdeclaration-after-statement -Werror=vla -Wendif-labels -Wmissing-format-attribute -Wformat-security -fno-strict-aliasing -fwrapv -fexcess-precision=standard -O2
+CFLAGS_SL = -fPIC
+LDFLAGS = -L/opt/csw/lib -Wl,-rpath,'/usr/local/pgsql/lib'
+LDFLAGS_EX =
+LDFLAGS_SL =
+LIBS = -lpgcommon -lpgport        -lz       -lrt -lsocket -lm
+LIBS = -lpgcommon -lpgport -lxml2 -lz -lnsl -lrt -lsocket -lm
+
+VERSION = PostgreSQL 16.0
+
+
+
+
+
+
+
+
+
+$ ./configure --help
+`configure' configures PostgreSQL 16.0 to adapt to many kinds of systems.
+
+Usage: ./configure [OPTION]... [VAR=VALUE]...
+
+To assign environment variables (e.g., CC, CFLAGS...), specify them as
+VAR=VALUE.  See below for descriptions of some of the useful variables.
+
+Defaults for the options are specified in brackets.
+
+Configuration:
+  -h, --help              display this help and exit
+      --help=short        display options specific to this package
+      --help=recursive    display the short help of all the included packages
+  -V, --version           display version information and exit
+  -q, --quiet, --silent   do not print `checking ...' messages
+      --cache-file=FILE   cache test results in FILE [disabled]
+  -C, --config-cache      alias for `--cache-file=config.cache'
+  -n, --no-create         do not create output files
+      --srcdir=DIR        find the sources in DIR [configure dir or `..']
+
+Installation directories:
+  --prefix=PREFIX         install architecture-independent files in PREFIX
+                          [/usr/local/pgsql]
+  --exec-prefix=EPREFIX   install architecture-dependent files in EPREFIX
+                          [PREFIX]
+
+By default, `make install' will install all the files in
+`/usr/local/pgsql/bin', `/usr/local/pgsql/lib' etc.  You can specify
+an installation prefix other than `/usr/local/pgsql' using `--prefix',
+for instance `--prefix=$HOME'.
+
+For better control, use the options below.
+
+Fine tuning of the installation directories:
+  --bindir=DIR            user executables [EPREFIX/bin]
+  --sbindir=DIR           system admin executables [EPREFIX/sbin]
+  --libexecdir=DIR        program executables [EPREFIX/libexec]
+  --sysconfdir=DIR        read-only single-machine data [PREFIX/etc]
+  --sharedstatedir=DIR    modifiable architecture-independent data [PREFIX/com]
+  --localstatedir=DIR     modifiable single-machine data [PREFIX/var]
+  --libdir=DIR            object code libraries [EPREFIX/lib]
+  --includedir=DIR        C header files [PREFIX/include]
+  --oldincludedir=DIR     C header files for non-gcc [/usr/include]
+  --datarootdir=DIR       read-only arch.-independent data root [PREFIX/share]
+  --datadir=DIR           read-only architecture-independent data [DATAROOTDIR]
+  --infodir=DIR           info documentation [DATAROOTDIR/info]
+  --localedir=DIR         locale-dependent data [DATAROOTDIR/locale]
+  --mandir=DIR            man documentation [DATAROOTDIR/man]
+  --docdir=DIR            documentation root [DATAROOTDIR/doc/postgresql]
+  --htmldir=DIR           html documentation [DOCDIR]
+  --dvidir=DIR            dvi documentation [DOCDIR]
+  --pdfdir=DIR            pdf documentation [DOCDIR]
+  --psdir=DIR             ps documentation [DOCDIR]
+
+System types:
+  --build=BUILD     configure for building on BUILD [guessed]
+  --host=HOST       cross-compile to build programs to run on HOST [BUILD]
+
+Optional Features:
+  --disable-option-checking  ignore unrecognized --enable/--with options
+  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
+  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
+  --disable-integer-datetimes
+                          obsolete option, no longer supported
+  --enable-nls[=LANGUAGES]
+                          enable Native Language Support
+  --disable-rpath         do not embed shared library search path in
+                          executables
+  --disable-spinlocks     do not use spinlocks
+  --disable-atomics       do not use atomic operations
+  --enable-debug          build with debugging symbols (-g)
+  --enable-profiling      build with profiling enabled
+  --enable-coverage       build with coverage testing instrumentation
+  --enable-dtrace         build with DTrace support
+  --enable-tap-tests      enable TAP tests (requires Perl and IPC::Run)
+  --enable-depend         turn on automatic dependency tracking
+  --enable-cassert        enable assertion checks (for debugging)
+  --disable-thread-safety disable thread-safety in client libraries
+  --disable-largefile     omit support for large files
+
+Optional Packages:
+  --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+  --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+  --with-extra-version=STRING
+                          append STRING to version
+  --with-template=NAME    override operating system template
+  --with-includes=DIRS    look for additional header files in DIRS
+  --with-libraries=DIRS   look for additional libraries in DIRS
+  --with-libs=DIRS        alternative spelling of --with-libraries
+  --with-pgport=PORTNUM   set default port number [5432]
+  --with-blocksize=BLOCKSIZE
+                          set table block size in kB [8]
+  --with-segsize=SEGSIZE  set table segment size in GB [1]
+  --with-segsize-blocks=SEGSIZE_BLOCKS
+                          set table segment size in blocks [0]
+  --with-wal-blocksize=BLOCKSIZE
+                          set WAL block size in kB [8]
+  --with-CC=CMD           set compiler (deprecated)
+  --with-llvm             build with LLVM based JIT support
+  --without-icu           build without ICU support
+  --with-tcl              build Tcl modules (PL/Tcl)
+  --with-tclconfig=DIR    tclConfig.sh is in DIR
+  --with-perl             build Perl modules (PL/Perl)
+  --with-python           build Python modules (PL/Python)
+  --with-gssapi           build with GSSAPI support
+  --with-krb-srvnam=NAME  default service principal name in Kerberos (GSSAPI)
+                          [postgres]
+  --with-pam              build with PAM support
+  --with-bsd-auth         build with BSD Authentication support
+  --with-ldap             build with LDAP support
+  --with-bonjour          build with Bonjour support
+  --with-selinux          build with SELinux support
+  --with-systemd          build with systemd support
+  --without-readline      do not use GNU Readline nor BSD Libedit for editing
+  --with-libedit-preferred
+                          prefer BSD Libedit over GNU Readline
+  --with-uuid=LIB         build contrib/uuid-ossp using LIB (bsd,e2fs,ossp)
+  --with-ossp-uuid        obsolete spelling of --with-uuid=ossp
+  --with-libxml           build with XML support
+  --with-libxslt          use XSLT support when building contrib/xml2
+  --with-system-tzdata=DIR
+                          use system time zone data in DIR
+  --without-zlib          do not use Zlib
+  --with-lz4              build with LZ4 support
+  --with-zstd             build with ZSTD support
+  --with-ssl=LIB          use LIB for SSL/TLS support (openssl)
+  --with-openssl          obsolete spelling of --with-ssl=openssl
+
+Some influential environment variables:
+  CC          C compiler command
+  CFLAGS      C compiler flags
+  LDFLAGS     linker flags, e.g. -L<lib dir> if you have libraries in a
+              nonstandard directory <lib dir>
+  LIBS        libraries to pass to the linker, e.g. -l<library>
+  CPPFLAGS    (Objective) C/C++ preprocessor flags, e.g. -I<include dir> if
+              you have headers in a nonstandard directory <include dir>
+  CXX         C++ compiler command
+  CXXFLAGS    C++ compiler flags
+  LLVM_CONFIG path to llvm-config command
+  CLANG       path to clang compiler to generate bitcode
+  CPP         C preprocessor
+  PKG_CONFIG  path to pkg-config utility
+  PKG_CONFIG_PATH
+              directories to add to pkg-config's search path
+  PKG_CONFIG_LIBDIR
+              path overriding pkg-config's built-in search path
+  ICU_CFLAGS  C compiler flags for ICU, overriding pkg-config
+  ICU_LIBS    linker flags for ICU, overriding pkg-config
+  XML2_CONFIG path to xml2-config utility
+  XML2_CFLAGS C compiler flags for XML2, overriding pkg-config
+  XML2_LIBS   linker flags for XML2, overriding pkg-config
+  LZ4_CFLAGS  C compiler flags for LZ4, overriding pkg-config
+  LZ4_LIBS    linker flags for LZ4, overriding pkg-config
+  ZSTD_CFLAGS C compiler flags for ZSTD, overriding pkg-config
+  ZSTD_LIBS   linker flags for ZSTD, overriding pkg-config
+  LDFLAGS_EX  extra linker flags for linking executables only
+  LDFLAGS_SL  extra linker flags for linking shared libraries only
+  PERL        Perl program
+  PYTHON      Python program
+  MSGFMT      msgfmt program for NLS
+  TCLSH       Tcl interpreter program (tclsh)
+
+Use these variables to override the choices made by `configure' or to help
+it to find libraries and programs with nonstandard names/locations.
+
+Report bugs to <pgsql-bugs@lists.postgresql.org>.
+PostgreSQL home page: <https://www.postgresql.org/>.
+
+
+YUKPGIDK5X9H7X7M
+
+# find . -name setjmp.h
+./usr/include/setjmp.h
+./usr/ucbinclude/setjmp.h
+./opt/solarisstudio12.4/lib/compilers/include/CC/stlport4/setjmp.h
